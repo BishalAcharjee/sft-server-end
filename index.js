@@ -50,11 +50,18 @@ async function run() {
 
     app.put("/medicine/:_id", async (req, res) => {
       const _id = req.params._id;
-      const filter = { _id: ObjectId(_id) };
+      const filter = { _id: new ObjectId(_id) };
       const updateDoc = {
-        $set: { status: "approved" },
+        $set: { status: "accepted" },
       };
       const result = await medicineCollection.updateOne(filter, updateDoc);
+      res.send(result);
+    });
+
+    app.delete("/medicine/:_id", async (req, res) => {
+      const _id = req.params._id;
+      const filter = { _id: new ObjectId(_id) };
+      const result = await medicineCollection.deleteOne(filter);
       res.send(result);
     });
   } finally {
